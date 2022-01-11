@@ -5,14 +5,14 @@ import { SearchBar } from '../components/SearchBar';
 import { useResults } from '../hooks/useResults';
 
 export const SearchScreen = () => {
-    
+     
     const [term, setTerm] = useState('');
     const [searchApi, results, errorMessage] = useResults(); 
     const filterResultsByPrice = (price) => {
         // price === $ || price === $$ || price === $$$
         return results.filter (results=>{
             return results.price === price;
-        });
+        }); 
     };
   return (
         <> 

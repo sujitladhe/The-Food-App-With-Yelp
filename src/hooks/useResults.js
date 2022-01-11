@@ -19,6 +19,7 @@ export const useResults = () => {
             });
 
         setResults(response.data.businesses);
+        setErrorMessage("");
     }
         catch (error) {
             // handle error

@@ -1,14 +1,40 @@
-import React from 'react';
-import { Text, View, TextInput, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { Text, View, TextInput, StyleSheet, Image, FlatList} from 'react-native';
+import yelp from '../api/yelp';
+
 export const ResultShowScreen = ({ navigation }) => {
     const id = navigation.getParam('id');
-    console.log(id);
+    const [result, setResult] = useState(null);
+    const getResult = async (id) => {
+        const response = await yelp.get(`/${id}`);
+        setResult(response.data);
+    }
+    useEffect(() => {
+       getResult(id);
+    }, []);
+
+    if(!result){ return null; }
+    console.log(result.photos);
     return (
         <>
-           <Text>This is a ResultShowScreen</Text> 
+           <Text>We have got results for {result.name}</Text> 
+           <FlatList 
+                data={result.photos} 
+                keyExtractor={(item) => item} 
+                renderItem={({item})=>{
+                    return(
+                        <Image style={styles.image} source={{uri: item}}/>
+                    );
+                }}
+           />
         </>
     )
 }
 
-const styles = StyleSheet.create ({});
+const styles = StyleSheet.create ({
+    image: {
+        height: 150,
+        width: 250
+    },
+});
 
